@@ -1,0 +1,3 @@
+[submodule "dvisvgm"]
+	path = dvisvgm
+	url = git@github.com:mgieseki/dvisvgm.git
