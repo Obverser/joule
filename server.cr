@@ -13,8 +13,10 @@ github_gen = Time.utc(2016, 1, 1, 12, 12, 12)
 blog_gen = Time.utc(2016, 1, 1, 12, 12, 12)
 
 # Ensure gen folder is created
-Dir.mkdir "gen"
-Dir.mkdir "gen/posts"
+if !Dir.exists? "gen"
+    Dir.mkdir "gen"
+    Dir.mkdir "gen/posts"
+end
 
 # Serve HTML content
 server = HTTP::Server.new do |context|
