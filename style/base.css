@@ -1,0 +1,27 @@
+body {
+    background-color: #11111b;
+    color: #cdd6f4;
+    font-family: SanFran;
+}
+
+/* Mash-up font of CatCafe and Yuji Syuku */
+@font-face {
+    font-family: Cafe;
+    src: url(/style/YujiCafe);
+}
+
+/* Brilliant font from https://github.com/delphinus/homebrew-sfmono-square/tree/master */
+@font-face {
+    font-family: SanFran;
+    src: url(/style/SF) format("opentype");
+}
+@font-face {
+    font-family: SanFran;
+    font-weight: bold;
+    src: url(/style/SFBold) format("opentype");
+}
+@font-face {
+    font-family: SanFran;
+    font-style: italic;
+    src: url(/style/SFItalic) format("opentype");
+}

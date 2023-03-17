@@ -1,23 +1,9 @@
 <meta charset=utf-8 />
 
+<head>
+    <link rel="stylesheet" href="/style/base" />
+</head>
 <style>
-    body {
-        background-color: #11111b;
-        color: #cdd6f4;
-        font-family: Cafe;
-    }
-
-    /* Mash-up font of CatCafe and Yuji Syuku */
-    @font-face {
-        font-family: Cafe;
-        src: url(/font/YujiCafe.ttf);
-    }
-
-    @font-face {
-        font-family: Nerd;
-        src: url(/font/Symbols.ttf);
-    }
-
     .views {
         position: relative;
         margin: 0 auto;
@@ -41,12 +27,7 @@
         align-items: center;
         font-size: xx-large;
         display: inline-flex;
-        /* font-family: Cafe; */
-        /* height: 100%;
-           justify-content: inherit;
-           align-items: inherit;
-           text-align: center;
-           display: flex; */
+        font-family: Cafe;
     }
 
     #drawing {
@@ -58,7 +39,7 @@
     }
 
     .slider {
-        font-family: Nerd;
+        font-family: SanFran;
         position: fixed;
         width: 100%;
         text-align: center;
@@ -169,12 +150,12 @@
 <body>
     <section class="views">
         <div class="slider">
-            <a href=#blog></a>
-            <a href=#banner></a>
-            <a href=#github></a>
+            <a href=#blog></a>
+            <a href=#banner></a>
+            <a href=#github></a>
         </div>
         <div id="blog">
-            <iframe src=/blog class="eframe">Blog iFrame</iframe>
+            <iframe src=/blog class="eframe" sandbox="allow-popups">Blog iFrame</iframe>
         </div>
         <div id="banner">
             <h2 class="left-banner">
@@ -275,7 +256,7 @@
             <!-- Auto focusing the banner page first without using javascript -->
             <input type="checkbox" id="auto" autofocus />
             <h2 class="right-banner">
-                <span class="type-jp">コンピュータ</span>
+                <span class="type-jp">コンピュウタ</span>
                 ・
                 <span class="type-en">comp sci</span>
             </h2>

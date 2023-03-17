@@ -1,6 +1,0 @@
-name: lynx
-version: 0.0.1
-
-dependencies: 
-  markd:
-    github: icyleaf/markd

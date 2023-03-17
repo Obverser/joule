@@ -33,33 +33,52 @@ server = HTTP::Server.new do |context|
             IO.copy file, context.response
         end
     elsif context.request.path == "/blog"
-        File.open "./md" do |folder|
-            # Ensure the blog posts are updated
-            if folder.info.modification_time != blog_gen
-                blog_gen = folder.info.modification_time
-                puts "[SERVER] " + blog_gen.to_s + ": Regenerating blog posts"
+        Dir.open "./md" do |folder|
+            if folder.info.modification_time > blog_gen
+                puts "Guh??"
+            end
 
-                Blog.regenerate
+            folder.each_child do |md|
+                File.open folder.path + "/" + md do |file|
+                    if file.info.modification_time > blog_gen
+                        blog_gen = Time.utc
+                        puts "[SERVER] " + blog_gen.to_s + ": Regenerating blog posts"
+        
+                        Blog.regenerate
+
+                        break
+                    end
+                end
             end
         end
 
         File.open "./gen/blog.html" do |file|
             IO.copy file, context.response
         end
-    elsif context.request.path.starts_with? "/blog/"
-        filepath = context.request.path.lchop "/blog/"
-    elsif context.request.path.starts_with? "/font/"
-        font = context.request.path.lchop "/font/"
+    elsif context.request.path.starts_with? "/style/"
+        style = context.request.path.lchop("/blog").lchop("/style/")
         
-        # We don't need to check this, we can just use File.open, but we don't want an attack vector
-        if font == "Symbols.ttf"
-            File.open "./font/Symbols.ttf" do |ttf|
+        if style.starts_with? "SF"
+            context.response.headers["Access-Control-Allow-Origin"] = "*"
+            context.response.content_type = "font/otf"
+            File.open "./style/" + style + ".otf" do |ttf|
                 IO.copy ttf, context.response
             end
-        elsif font == "YujiCafe.ttf"
-            File.open "./font/YujiCafe.ttf" do |ttf|
+        elsif style == "YujiCafe"
+            context.response.headers["Access-Control-Allow-Origin"] = "*"
+            context.response.content_type = "font/tff"
+            File.open "./style/YujiCafe.ttf" do |ttf|
                 IO.copy ttf, context.response
             end
+        elsif style == "base"
+            context.response.content_type = "text/css"
+            File.open "./style/base.css" do |css|
+                IO.copy css, context.response
+            end
+        end
+    elsif context.request.path.starts_with? "/blog/" 
+        File.open "./gen/posts/" + context.request.path.lchop("/blog") + ".html" do |html|
+            IO.copy html, context.response
         end
     else
         # Unknown path
