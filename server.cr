@@ -12,6 +12,10 @@ type = "text/html"
 github_gen = Time.utc(2016, 1, 1, 12, 12, 12)
 blog_gen = Time.utc(2016, 1, 1, 12, 12, 12)
 
+# Ensure gen folder is created
+Dir.mkdir "gen"
+Dir.mkdir "gen/posts"
+
 # Serve HTML content
 server = HTTP::Server.new do |context|
     context.response.content_type = type
@@ -21,6 +25,10 @@ server = HTTP::Server.new do |context|
             IO.copy file, context.response
         end
     elsif context.request.path == "/github"
+        if !File.exists? "./gen/github.html"
+            GitHub.regenerate
+        end
+
         File.open "./gen/github.html" do |file|
             # Ensure that our GitHub page isn't stale
             if file.info.modification_time - github_gen >= 6.hour
@@ -34,10 +42,6 @@ server = HTTP::Server.new do |context|
         end
     elsif context.request.path == "/blog"
         Dir.open "./md" do |folder|
-            if folder.info.modification_time > blog_gen
-                puts "Guh??"
-            end
-
             folder.each_child do |md|
                 File.open folder.path + "/" + md do |file|
                     if file.info.modification_time > blog_gen
