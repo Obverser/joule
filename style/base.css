@@ -4,6 +4,11 @@ body {
     font-family: SanFran;
 }
 
+.sourceCode {
+    font-family: SanFran;
+    background-color: #1e1e2e;
+}
+
 /* Mash-up font of CatCafe and Yuji Syuku */
 @font-face {
     font-family: Cafe;
