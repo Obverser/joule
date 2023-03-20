@@ -17,7 +17,7 @@ Ciao y'all! This week, we were given a small dataset and tasked to write a model
 
 You've probably already noticed that the ratio of students using the library trickles down as the GPA lowers. But how can we find the line between these points? This is where we can apply <u>Linear Regression</u>. You can think of linear regression as a way to find the line of *best fit*--gradually adjusting a line to get closer to every point equally. 
 
-So first of all, what are we looking for? What is the *X* and *Y* of our graph? Generally, we want to see how the ratio of library users effects the GPA bracket. We see can see how the % trends downwards as the GPA approaches **2.00**. Our data is split into bins of **.25** GPA, and the generalized extremes for **over 3.74** and **under 2.00**. Knowing this, we can choose the GPA as our *X* axis and the ratio of library users as our *Y* value.
+So first of all, what are we looking for? What is the *X* and *Y* of our graph? Generally, we want to see how the ratio of library users affects the GPA bracket. We can see how the % trends downwards as the GPA approaches **2.00**. Our data is split into bins of **.25** GPA, and the generalized extremes for **over 3.74** and **under 2.00**. Knowing this, we can choose the GPA as our *X* axis and the ratio of library users as our *Y* value.
 
 Before delving too far, it's important to note that we will lose accuracy when a student approaches the ends of our data. I mentioned earlier that the data has <u>generalized extremes</u>, since we have **>** and **<**. For the higher end, it shouldn't really matter as **4.00** GPA is the upper limit in most cases. However, **2.00** and below are all grouped into one: we won't have as accurate of a model in the lower limits.
 
@@ -147,6 +147,8 @@ Brava! The learning segment is complete. We can test it out by making a custom t
 
 This doesn't necessarily tell us if there is a correlation, but we know from observation that this value should be between 49% to 45%. Running the program gives us a 47.47% ratio for library users! But we should probably graph this, so lets export it.
 
+### Exporting and Plotting
+
 ```rust
     /* ... */
 
@@ -154,4 +156,38 @@ This doesn't necessarily tell us if there is a correlation, but we know from obs
 }
 ```
 
-*.save("")* allows us to use the model in numpy, so let's use that to graph.
+*.save("")* allows us to use the model in numpy, so let's use that to graph. Matplotlib makes this super ergonomic, so lets start with that.
+
+*.save("")* will make an npz for us. Since we made our model Linear<1,1> (a one-to-one linear function), we'll have one weight and bias. This maps directly to $y=mx+b$, where the weight is $m$ and the bias is $b$. To make this in Python:
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(nrows=1, ncols=1)
+ax.set_facecolor("#1e1e2e")
+fig.set_facecolor("#11111b")
+
+pred = np.load("gpa.npz", allow_pickle=True)
+pred_x = np.linspace(1.5, 4, 1000)
+pred_y = pred["weight"][0]*pred_x + pred["bias"]
+
+real = np.array([
+    [1.875, 0.34], [2.125, 0.42], [2.375, 0.45], [2.625, 0.49],
+    [2.875, 0.53], [3.125, 0.56], [3.375, 0.61], [3.625, 0.66], [3.875, 0.67]
+])
+real_x, real_y = real.T
+
+plt.plot(pred_x, pred_y, color="#89b4fa", label="Prediction")
+plt.scatter(real_x, real_y, color="#f38ba8", label="Given")
+
+plt.ylim(0, 1)
+plt.grid(color="#313244")
+plt.legend()
+
+plt.show()
+```
+
+This gives us the final result.... a graph that shows correlation!
+
+![](/image/sprint17.svg)

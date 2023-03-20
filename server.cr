@@ -62,7 +62,7 @@ server = HTTP::Server.new do |context|
             IO.copy file, context.response
         end
     elsif context.request.path.starts_with? "/style/"
-        style = context.request.path.lchop("/blog").lchop("/style/")
+        style = context.request.path.lchop("/blog/").lchop("/style/")
         
         if style.starts_with? "SF"
             context.response.headers["Access-Control-Allow-Origin"] = "*"
@@ -83,8 +83,14 @@ server = HTTP::Server.new do |context|
             end
         end
     elsif context.request.path.starts_with? "/blog/" 
-        File.open "./gen/posts/" + context.request.path.lchop("/blog") + ".html" do |html|
+        File.open "./gen/posts/" + context.request.path.lchop("/blog/") + ".html" do |html|
             IO.copy html, context.response
+        end
+    elsif context.request.path.starts_with? "/image/"
+        context.response.headers["Access-Control-Allow-Origin"] = "*"
+        context.response.content_type = "image/svg+xml"
+        File.open "./resources/" + context.request.path.lchop("/image/") do |image|
+            IO.copy image, context.response
         end
     else
         # Unknown path
