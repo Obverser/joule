@@ -17,7 +17,7 @@ class Blog
 
             Process.run "pandoc -s --mathml " + markdown.path + "/" + file + " -o " + path + " -c /style/base --shift-heading-level-by=-1", shell: true
 
-            blog.puts "<a href=\"/blog/" + file.lchop(markdown.path).rchop(".md") + "\" target=\"home\">???</a>"
+            blog.puts "<a href=\"/blog/" + file.lchop(markdown.path).rchop(".md") + "\" target=\"home\">" + File.read_lines(markdown.path + "/" + file)[0].lchop("# ") +"</a>"
         end
 
         puts "[ BLOG ] " + Time.utc.to_s + ": Blog pages and static file finished"
