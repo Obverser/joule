@@ -67,7 +67,7 @@ server = HTTP::Server.new do |context|
         if (style.starts_with? "SF") || (style.starts_with? "Yuji")
             context.response.headers["Access-Control-Allow-Origin"] = "*"
             context.response.content_type = "font/woff2"
-            File.open "./style/" + style + "woff2" do |woff2|
+            File.open "./style/" + style + ".woff2" do |woff2|
                 IO.copy woff2, context.response
             end
         elsif style == "base"
