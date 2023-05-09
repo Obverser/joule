@@ -12,21 +12,21 @@ body {
 /* Mash-up font of CatCafe and Yuji Syuku */
 @font-face {
     font-family: Cafe;
-    src: url(/style/YujiCafe);
+    src: url(/style/YujiCafe) format("woff2");
 }
 
 /* Brilliant font from https://github.com/delphinus/homebrew-sfmono-square/tree/master */
 @font-face {
     font-family: SanFran;
-    src: url(/style/SF) format("opentype");
+    src: url(/style/SF) format("woff2");
 }
 @font-face {
     font-family: SanFran;
     font-weight: bold;
-    src: url(/style/SFBold) format("opentype");
+    src: url(/style/SFBold) format("woff2");
 }
 @font-face {
     font-family: SanFran;
     font-style: italic;
-    src: url(/style/SFItalic) format("opentype");
+    src: url(/style/SFItalic) format("woff2");
 }

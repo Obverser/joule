@@ -61,38 +61,14 @@ server = HTTP::Server.new do |context|
         File.open "./gen/blog.html" do |file|
             IO.copy file, context.response
         end
-    # additions for MONAI, I know the sin is javascript
-    elsif context.request.path == "/monai-player"
-        File.open "./projects/monai/player.html" do |file|
-            IO.copy file, context.response
-        end
-    elsif context.request.path == "/monai-js"
-        context.response.headers["Access-Control-Allow-Origin"] = "*"
-        context.response.content_type = "text/javascript"
-        File.open "./projects/monai/player-base.js" do |js|
-            IO.copy js, context.response
-        end
-    elsif context.request.path == "/monai-wasm"
-        context.response.headers["Access-Control-Allow-Origin"] = "*"
-        context.response.content_type = "application/wasm"
-        File.open "./projects/monai/human.wasm" do |wasm|
-            IO.copy wasm, context.response
-        end
-    # end MONAI
     elsif context.request.path.starts_with? "/style/"
         style = context.request.path.lchop("/blog/").lchop("/style/")
         
-        if style.starts_with? "SF"
+        if style.starts_with? "SF" || style.starts_with? "Yuji"
             context.response.headers["Access-Control-Allow-Origin"] = "*"
-            context.response.content_type = "font/otf"
-            File.open "./style/" + style + ".otf" do |ttf|
-                IO.copy ttf, context.response
-            end
-        elsif style == "YujiCafe"
-            context.response.headers["Access-Control-Allow-Origin"] = "*"
-            context.response.content_type = "font/tff"
-            File.open "./style/YujiCafe.ttf" do |ttf|
-                IO.copy ttf, context.response
+            context.response.content_type = "font/woff2"
+            File.open "./style/" + style + "woff2" do |woff2|
+                IO.copy woff2, context.response
             end
         elsif style == "base"
             context.response.content_type = "text/css"
