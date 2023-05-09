@@ -64,7 +64,7 @@ server = HTTP::Server.new do |context|
     elsif context.request.path.starts_with? "/style/"
         style = context.request.path.lchop("/blog/").lchop("/style/")
         
-        if style.starts_with? "SF" || style.starts_with? "Yuji"
+        if (style.starts_with? "SF") || (style.starts_with? "Yuji")
             context.response.headers["Access-Control-Allow-Origin"] = "*"
             context.response.content_type = "font/woff2"
             File.open "./style/" + style + "woff2" do |woff2|
